@@ -1,1 +1,78 @@
-print = 'olar'
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Circular Progress Indicator',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MyHomePage(title: 'Progress Indicator Example'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  double _progressValue = 0.0;
+
+  void _increaseProgress() {
+    setState(() {
+      _progressValue += 0.1;
+      if (_progressValue > 1.0) {
+        _progressValue = 0.0; // Reset if it exceeds 1.0
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(
+              width: 150, // Increased size
+              height: 150, // Increased size
+              child: CircularProgressIndicator(
+                value: _progressValue,
+                backgroundColor: Colors.grey[300],
+                valueColor: const AlwaysStoppedAnimation<Color>(Colors.purple), // Changed color
+                strokeWidth: 8.0, // Changed thickness
+              ),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: _increaseProgress,
+              child: const Text('Increase Progress'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.teal, // Button color
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                textStyle: const TextStyle(fontSize: 18),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
